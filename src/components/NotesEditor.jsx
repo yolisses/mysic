@@ -16,13 +16,13 @@ function setActualScale(value) {
 }
 
 function zoom_in() {
-    const actual = getAtualScale() || 100
+    const actual = getAtualScale() || 10
     setActualScale(actual + zoom_step);
 }
 
 function zoom_out() {
-    const actual = getAtualScale() || 100
-    setActualScale(actual - zoom_step);
+    const actual = getAtualScale() || 10
+    setActualScale((actual - zoom_step));
 }
 
 const keyMap = {

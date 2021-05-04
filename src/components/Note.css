@@ -11,10 +11,9 @@
 	position: absolute;
 	box-sizing: border-box;
 	user-select: none;
-	width: calc(var(--duration) * 20px);
 	top: calc(var(--height) * 20px);
-	left: calc(var(--start) * 20px);
-	left: calc(var(--start) * 1px);
+	left: calc(var(--scale) * var(--start) * 1px);
+	width: calc(var(--scale) * var(--duration) * 1px);
 	height: 20px;
 }
 
