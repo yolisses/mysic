@@ -1,0 +1,9 @@
+.notes-editor {
+	overflow-y: scroll;
+	/* height: calc(var(--y-unit) * 88); */
+	position: relative;
+	background-color: rgb(70, 50, 50);
+	box-sizing: border-box;
+	height: 100vh;
+	margin: 0;
+}

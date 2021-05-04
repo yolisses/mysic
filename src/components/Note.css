@@ -1,0 +1,46 @@
+:root {
+	--note-green: #009900;
+	--note-green-a: #009900aa;
+	--note-blue-a: #39da;
+	--note-blue: #39d;
+	--px: 1px;
+}
+
+.note {
+	background-color: var(--note-green-a);
+	position: absolute;
+	box-sizing: border-box;
+	user-select: none;
+	width: calc(var(--duration) * 20px);
+	top: calc(var(--height) * 20px);
+	left: calc(var(--start) * 20px);
+	left: calc(var(--start) * 1px);
+	height: 20px;
+}
+
+.note:hover {
+	filter: brightness(1.2);
+	cursor: pointer;
+}
+
+.durationHandler {
+	position: absolute;
+	right: 0;
+	height: 100%;
+	width: 6px;
+	background-color: var(--note-green);
+}
+
+.durationHandler:hover {
+	cursor: w-resize;
+}
+
+[select='true'] {
+	background-color: var(--note-blue-a);
+	border: solid 1px var(--note-blue);
+	border-radius: 3px;
+}
+
+[select='true'] .durationHandler {
+	background-color: var(--note-blue);
+}

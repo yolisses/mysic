@@ -1,0 +1,15 @@
+export default [
+    { height: 5, duration: 6, start: 10 },
+    { height: 2, duration: 3, start: 5 },
+    { height: 3, duration: 2, start: 4 },
+    { height: 80, duration: 4, start: 6 },
+    { height: 5, duration: 2, start: 14 },
+    { height: 4, duration: 4, start: 26 },
+    { height: 4, duration: 4, start: 6 },
+    { height: 8, duration: 3, start: 10 },
+    { height: 10, duration: 3, start: 10 },
+    { height: 12, duration: 3, start: 10 },
+    { height: 9, duration: 3, start: 13 },
+    { height: 11, duration: 3, start: 13 },
+    { height: 13, duration: 3, start: 13 },
+]
