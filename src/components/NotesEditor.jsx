@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import Note from './Note'
 
 import { useNotes } from '../contexts/NotesContext'
@@ -6,6 +6,8 @@ import { useNotes } from '../contexts/NotesContext'
 import "./NotesEditor.css";
 
 const zoom_step = 5;
+
+export let editor = document.querySelector('.notes-editor')
 
 export function getAtualScale() {
     return parseInt(document.documentElement.style.getPropertyValue('--scale'))
@@ -29,6 +31,14 @@ function zoom_out() {
     setActualScale(20);
 })()
 
+export function pixelToXPosition(positionInPixels) {
+    return (positionInPixels + editor.scrollLeft) / getAtualScale()
+}
+
+export function pixelToYPosition(positionInPixels) {
+    return parseInt((positionInPixels + editor.scrollTop - 80) / 20)
+}
+
 const keyMap = {
     '+': zoom_in,
     '-': zoom_out
@@ -42,6 +52,8 @@ function keyPress(event) {
 
 function NotesEditor() {
     let { notes } = useNotes()
+
+    useEffect(() => { editor = document.querySelector('.notes-editor') })
 
     return (
         // tabindex specifically to listen keypress

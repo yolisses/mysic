@@ -4,10 +4,9 @@ import notasExemplo from '../utils/notasExemplo'
 
 //import { global } from '../utils/global'
 
-import { getAtualScale } from '../components/NotesEditor'
+import { getAtualScale, editor, pixelToXPosition, pixelToYPosition } from '../components/NotesEditor'
 
 const html = document.querySelector('html');
-let editor = document.querySelector('.notes-editor')
 
 export const NotesContext = createContext('')
 
@@ -37,9 +36,9 @@ export function NotesContextProvider(props) {
         html.onmousemove = (e) => {
             console.log('moving')
             for (let coisa of moving) {
-                coisa.note.start = (e.screenX + editor.scrollLeft) / getAtualScale()
+                coisa.note.start = pixelToXPosition(e.screenX)
                 //DANGEROUS: hard coded
-                coisa.note.height = parseInt((e.screenY + editor.scrollTop - 80) / 20)
+                coisa.note.height = pixelToYPosition(e.screenY)
                 coisa.setStart(coisa.note.start)
                 coisa.setHeight(coisa.note.height)
             }
@@ -62,8 +61,6 @@ export function NotesContextProvider(props) {
         html.onmousemove = () => {
         }
     }
-
-    useEffect(() => { editor = document.querySelector('.notes-editor') })
 
     html.onmouseup = () => {
         endMove()
