@@ -6,7 +6,7 @@ import { useNotes } from '../contexts/NotesContext'
 
 export default function Note(props) {
     const { id } = props
-    const [note, setNote] = useState(props.note)
+    const [note] = useState(props.note)
     const { startMove, addToMoving } = useNotes()
     const { startScale, addToScaling } = useNotes()
 
@@ -19,7 +19,7 @@ export default function Note(props) {
             className='note'
             style={{ '--start': start, '--height': height, '--duration': duration }}
             id={id}
-            onMouseDown={() => { addToMoving(note, setStart, setHeight); startMove(); }}
+            onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); addToMoving(note, setStart, setHeight); startMove(); }}
         >{start}
             <div className="duration-handle"
                 onMouseDown={(e) => { e.stopPropagation(); addToScaling(note, duration, setDuration); startScale(e); }}>

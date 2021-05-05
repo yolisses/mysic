@@ -59,10 +59,8 @@ function NotesEditor() {
 
     function onClick(event) {
         if (event.button == 0) {
-            console.log('esquerdo')
-            const start = pixelToYPosition(event.screenX)
+            const start = pixelToXPosition(event.screenX)
             const height = pixelToYPosition(event.screenY)
-            console.log(notes.length)
             const newNote = addNote(start, height)
         }
 
@@ -77,7 +75,7 @@ function NotesEditor() {
     return (
         // tabindex specifically to listen keypress
         <div className="notes-editor" onKeyPress={keyPress} tabIndex="0"
-            onClick={onClick} onContextMenu={onClick}>
+            onMouseDown={onClick} onContextMenu={onClick}>
             <div id="space">
                 {
                     notes.map((note, index) =>

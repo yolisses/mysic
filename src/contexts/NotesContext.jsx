@@ -11,7 +11,7 @@ const html = document.querySelector('html');
 export const NotesContext = createContext('')
 
 export function NotesContextProvider(props) {
-    const notes = [...notasExemplo]
+    const [notes, setNotes] = useState([...notasExemplo])
     const [selectedList, setSelectedList] = useState(
         [7, 8, 9, 10, 11, 12].map(i => notes[i])
     )
@@ -67,8 +67,8 @@ export function NotesContextProvider(props) {
     const hardCodedDuration = 4
 
     const addNote = (start, height) => {
-        const newNote = { start, height, hardCodedDuration }
-        notes.push(newNote)
+        const newNote = { start, height, duration: hardCodedDuration }
+        setNotes(notes.concat(newNote))
         notes.sort((a, b) => a.start - b.start)
         return newNote
     }
