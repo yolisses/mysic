@@ -18,7 +18,7 @@ export default function Note(props) {
             className='note'
             style={{ '--start': start, '--height': height, '--duration': duration }}
             id={id}
-            onMouseDown={() => { addToMoving(note, setStart); startMove(); console.log(note) }}
+            onMouseDown={() => { addToMoving(note, setStart, setHeight); startMove(); console.log(note) }}
         >{start}</div >
     )
 }

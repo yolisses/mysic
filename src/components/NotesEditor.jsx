@@ -7,11 +7,11 @@ import "./NotesEditor.css";
 
 const zoom_step = 5;
 
-function getAtualScale() {
+export function getAtualScale() {
     return parseInt(document.documentElement.style.getPropertyValue('--scale'))
 }
 
-function setActualScale(value) {
+export function setActualScale(value) {
     document.documentElement.style.setProperty('--scale', value);
 }
 
@@ -24,6 +24,10 @@ function zoom_out() {
     const actual = getAtualScale() || 10
     setActualScale((actual - zoom_step));
 }
+
+(function scale_init() {
+    setActualScale(20);
+})()
 
 const keyMap = {
     '+': zoom_in,

@@ -4,6 +4,8 @@ import notasExemplo from '../utils/notasExemplo'
 
 //import { global } from '../utils/global'
 
+import { getAtualScale } from '../components/NotesEditor'
+
 const html = document.querySelector('html');
 let editor = document.querySelector('.notes-editor')
 
@@ -17,8 +19,8 @@ export function NotesContextProvider(props) {
 
     let moving = []
 
-    const addToMoving = (note, setStart) => {
-        moving.push({ note, setStart })
+    const addToMoving = (note, setStart, setHeight) => {
+        moving.push({ note, setStart, setHeight })
         // console.log(moving)
         // for (let coisa of moving) {
         //     console.log(coisa)
@@ -29,8 +31,12 @@ export function NotesContextProvider(props) {
         // console.log('start move')
         html.onmousemove = (e) => {
             for (let coisa of moving) {
-                coisa.note.start = e.screenX + editor.scrollLeft
+                coisa.note.start = (e.screenX + editor.scrollLeft) / getAtualScale()
+                //DANGEROUS: hard coded
+                coisa.note.height = parseInt((e.screenY + editor.scrollTop - 80) / 20)
                 coisa.setStart(coisa.note.start)
+                console.log(coisa)
+                coisa.setHeight(coisa.note.height)
             }
         }
     }
