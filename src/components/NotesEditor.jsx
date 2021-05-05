@@ -50,23 +50,29 @@ function keyPress(event) {
     if (callBack) callBack();
 }
 
-function onClick(event) {
-    if (event.button == 0) {
-        console.log('esquerdo')
-    }
 
-    if (event.button == 2) {
-        console.log('direito')
-    }
-
-    event.preventDefault()
-    event.stopPropagation()
-}
 
 function NotesEditor() {
-    let { notes } = useNotes()
+    let { notes, addNote } = useNotes()
 
     useEffect(() => { editor = document.querySelector('.notes-editor') })
+
+    function onClick(event) {
+        if (event.button == 0) {
+            console.log('esquerdo')
+            const start = pixelToYPosition(event.screenX)
+            const height = pixelToYPosition(event.screenY)
+            console.log(notes.length)
+            const newNote = addNote(start, height)
+        }
+
+        if (event.button == 2) {
+            console.log('direito')
+        }
+
+        event.preventDefault()
+        event.stopPropagation()
+    }
 
     return (
         // tabindex specifically to listen keypress

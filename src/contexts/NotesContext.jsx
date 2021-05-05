@@ -63,6 +63,16 @@ export function NotesContextProvider(props) {
         }
     }
 
+    //DANGER: hard coded
+    const hardCodedDuration = 4
+
+    const addNote = (start, height) => {
+        const newNote = { start, height, hardCodedDuration }
+        notes.push(newNote)
+        notes.sort((a, b) => a.start - b.start)
+        return newNote
+    }
+
     html.onmouseup = () => {
         endMove()
         // console.log('mouse up')
@@ -84,6 +94,7 @@ export function NotesContextProvider(props) {
             addToMoving,
             startScale,
             addToScaling,
+            addNote,
         }}>
             { props.children}
         </ NotesContext.Provider>
