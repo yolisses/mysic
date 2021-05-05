@@ -28,6 +28,7 @@
 	height: 80%;
 	width: 10px;
 	max-width: 50%;
+	min-width: 2px;
 	position: absolute;
 	right: 0;
 	top: 50%;

@@ -50,6 +50,19 @@ function keyPress(event) {
     if (callBack) callBack();
 }
 
+function onClick(event) {
+    if (event.button == 0) {
+        console.log('esquerdo')
+    }
+
+    if (event.button == 2) {
+        console.log('direito')
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+}
+
 function NotesEditor() {
     let { notes } = useNotes()
 
@@ -57,7 +70,8 @@ function NotesEditor() {
 
     return (
         // tabindex specifically to listen keypress
-        <div className="notes-editor" onKeyPress={keyPress} tabIndex="0">
+        <div className="notes-editor" onKeyPress={keyPress} tabIndex="0"
+            onClick={onClick} onContextMenu={onClick}>
             <div id="space">
                 {
                     notes.map((note, index) =>
