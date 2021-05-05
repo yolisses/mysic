@@ -19,6 +19,10 @@ export default function Note(props) {
             style={{ '--start': start, '--height': height, '--duration': duration }}
             id={id}
             onMouseDown={() => { addToMoving(note, setStart, setHeight); startMove(); console.log(note) }}
-        >{start}</div >
+        >{start}
+            <div className="duration-handle">
+
+            </div>
+        </div >
     )
 }

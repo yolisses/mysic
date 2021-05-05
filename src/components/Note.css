@@ -24,24 +24,13 @@
 	cursor: pointer;
 }
 
-.durationHandler {
+.duration-handle {
+	height: 90%;
+	width: 4px;
 	position: absolute;
 	right: 0;
-	height: 100%;
-	width: 6px;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	background-color: var(--note-green);
-}
-
-.durationHandler:hover {
-	cursor: w-resize;
-}
-
-[select='true'] {
-	background-color: var(--note-blue-a);
-	border: solid 1px var(--note-blue);
-	border-radius: 3px;
-}
-
-[select='true'] .durationHandler {
-	background-color: var(--note-blue);
+	cursor: ew-resize;
 }
