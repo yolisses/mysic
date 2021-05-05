@@ -55,7 +55,12 @@ function keyPress(event) {
 function NotesEditor() {
     let { notes, addNote } = useNotes()
 
-    useEffect(() => { editor = document.querySelector('.notes-editor') })
+    useEffect(() => {
+        editor = document.querySelector('.notes-editor')
+        editor.oncontextmenu = (e) => {
+            e.preventDefault()
+        };
+    })
 
     function onClick(event) {
         if (event.button == 0) {
@@ -68,7 +73,6 @@ function NotesEditor() {
             console.log('direito')
         }
 
-        event.preventDefault()
         event.stopPropagation()
     }
 
@@ -79,7 +83,9 @@ function NotesEditor() {
             <div id="space">
                 {
                     notes.map((note, index) =>
-                        (<Note note={note} key={index} id={'note' + index}></Note>))
+                    (<Note note={note}
+                        key={index}
+                        id={'note' + index}></Note>))
                 }
             </div>
         </div>

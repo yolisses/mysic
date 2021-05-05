@@ -69,8 +69,18 @@ export function NotesContextProvider(props) {
     const addNote = (start, height) => {
         const newNote = { start, height, duration: hardCodedDuration }
         setNotes(notes.concat(newNote))
-        notes.sort((a, b) => a.start - b.start)
+        // notes.sort((a, b) => a.start - b.start)
         return newNote
+    }
+
+    const removeNote = (note) => {
+        // console.log('nota sendo removida', note)
+        // console.log('notes antes', notes)
+        const newNotes = notes.filter(element => { console.log(element, note, element !== note); return element !== note })
+        // console.log(newNotes)
+        setNotes([])
+        setNotes(newNotes)
+        // console.log('notes depois', notes)
     }
 
     html.onmouseup = () => {
@@ -95,6 +105,7 @@ export function NotesContextProvider(props) {
             startScale,
             addToScaling,
             addNote,
+            removeNote,
         }}>
             { props.children}
         </ NotesContext.Provider>
