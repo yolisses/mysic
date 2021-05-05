@@ -25,12 +25,13 @@
 }
 
 .duration-handle {
-	height: 90%;
-	width: 4px;
+	height: 80%;
+	width: 10px;
+	max-width: 50%;
 	position: absolute;
 	right: 0;
 	top: 50%;
-	transform: translate(-50%, -50%);
-	background-color: var(--note-green);
+	transform: translate(50%, -50%);
+	/* background-color: var(--note-green); */
 	cursor: ew-resize;
 }
