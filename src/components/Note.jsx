@@ -6,7 +6,6 @@ import { useNotes } from '../contexts/NotesContext'
 
 export default function Note(props) {
     const { id } = props
-    // const [note] = useState(props.note)
 
     const { startMove, addToMoving } = useNotes()
     const { startScale, addToScaling } = useNotes()
@@ -25,14 +24,12 @@ export default function Note(props) {
 
     const onMouseDown = (e) => {
         e.stopPropagation();
-        // e.preventDefault();
         if (e.button != 0) return;
         addToMoving(props.note, setStart, setHeight);
         startMove();
     }
 
     useEffect(() => {
-        // console.log('foi', props.note)
         setStart(props.note.start)
         setHeight(props.note.height)
         setDuration(props.note.duration)
