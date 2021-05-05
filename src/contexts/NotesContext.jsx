@@ -23,8 +23,8 @@ export function NotesContextProvider(props) {
         moving.push({ note, setStart, setHeight })
     }
 
-    const addToScaling = (note, setDuration) => {
-        scaling.push({ note, setDuration })
+    const addToScaling = (note, initialDuration, setDuration) => {
+        scaling.push({ note, initialDuration, setDuration })
         // console.log(moving)
         // for (let coisa of moving) {
         //     console.log(coisa)
@@ -45,12 +45,13 @@ export function NotesContextProvider(props) {
         }
     }
 
-    const startScale = () => {
+    const startScale = (e) => {
         console.log('start scale')
+        const initialMousePosition = pixelToXPosition(e.screenX)
         html.onmousemove = (e) => {
             console.log('scaling')
             for (let coisa of scaling) {
-                coisa.note.duration = (e.screenX + editor.scrollLeft) / getAtualScale()
+                coisa.note.duration = pixelToXPosition(e.screenX) - initialMousePosition + coisa.initialDuration
                 coisa.setDuration(coisa.note.duration)
             }
             e.preventDefault()

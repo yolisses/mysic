@@ -22,7 +22,7 @@ export default function Note(props) {
             onMouseDown={() => { addToMoving(note, setStart, setHeight); startMove(); }}
         >{start}
             <div className="duration-handle"
-                onMouseDown={(e) => { e.stopPropagation(); addToScaling(note, setDuration); startScale(); }}>
+                onMouseDown={(e) => { e.stopPropagation(); addToScaling(note, duration, setDuration); startScale(e); }}>
             </div>
         </div >
     )
