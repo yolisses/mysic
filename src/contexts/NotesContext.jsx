@@ -18,9 +18,14 @@ export function NotesContextProvider(props) {
     )
 
     let moving = []
+    let scaling = []
 
     const addToMoving = (note, setStart, setHeight) => {
         moving.push({ note, setStart, setHeight })
+    }
+
+    const addToScaling = (note, setDuration) => {
+        scaling.push({ note, setDuration })
         // console.log(moving)
         // for (let coisa of moving) {
         //     console.log(coisa)
@@ -28,16 +33,28 @@ export function NotesContextProvider(props) {
     }
 
     const startMove = () => {
-        // console.log('start move')
+        console.log('start move')
         html.onmousemove = (e) => {
+            console.log('moving')
             for (let coisa of moving) {
                 coisa.note.start = (e.screenX + editor.scrollLeft) / getAtualScale()
                 //DANGEROUS: hard coded
                 coisa.note.height = parseInt((e.screenY + editor.scrollTop - 80) / 20)
                 coisa.setStart(coisa.note.start)
-                console.log(coisa)
                 coisa.setHeight(coisa.note.height)
             }
+        }
+    }
+
+    const startScale = () => {
+        console.log('start scale')
+        html.onmousemove = (e) => {
+            console.log('scaling')
+            for (let coisa of scaling) {
+                coisa.note.duration = (e.screenX + editor.scrollLeft) / getAtualScale()
+                coisa.setDuration(coisa.note.duration)
+            }
+            e.preventDefault()
         }
     }
 
@@ -52,6 +69,7 @@ export function NotesContextProvider(props) {
         endMove()
         // console.log('mouse up')
         moving = []
+        scaling = []
     }
 
     html.onmousedown = (e) => {
@@ -65,7 +83,9 @@ export function NotesContextProvider(props) {
             setSelectedList,
             startMove,
             endMove,
-            addToMoving
+            addToMoving,
+            startScale,
+            addToScaling,
         }}>
             { props.children}
         </ NotesContext.Provider>

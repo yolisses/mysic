@@ -8,6 +8,7 @@ export default function Note(props) {
     const { id } = props
     const [note, setNote] = useState(props.note)
     const { startMove, addToMoving } = useNotes()
+    const { startScale, addToScaling } = useNotes()
 
     const [start, setStart] = useState(props.note.start)
     const [height, setHeight] = useState(props.note.height)
@@ -18,10 +19,10 @@ export default function Note(props) {
             className='note'
             style={{ '--start': start, '--height': height, '--duration': duration }}
             id={id}
-            onMouseDown={() => { addToMoving(note, setStart, setHeight); startMove(); console.log(note) }}
+            onMouseDown={() => { addToMoving(note, setStart, setHeight); startMove(); }}
         >{start}
-            <div className="duration-handle">
-
+            <div className="duration-handle"
+                onMouseDown={(e) => { e.stopPropagation(); addToScaling(note, setDuration); startScale(); }}>
             </div>
         </div >
     )
