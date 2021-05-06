@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react';
+import { React, ReactDOM, useEffect } from 'react';
 import Note from './Note'
 
 import { useNotes } from '../contexts/NotesContext'
@@ -66,7 +66,7 @@ function NotesEditor() {
         if (event.button == 0) {
             const start = pixelToXPosition(event.screenX)
             const height = pixelToYPosition(event.screenY)
-            const newNote = addNote(start, height)
+            addNote(start, height)
         }
 
         if (event.button == 2) {
@@ -74,20 +74,24 @@ function NotesEditor() {
         }
 
         event.stopPropagation()
+        event.preventDefault()
     }
 
     return (
         // tabindex specifically to listen keypress
         <div className="notes-editor" onKeyPress={keyPress} tabIndex="0"
-            onMouseDown={onClick} onContextMenu={onClick}>
-            <div id="space">
-                {
-                    notes.map((note, index) =>
-                    (<Note note={note}
-                        key={index}
-                        id={'note' + index}></Note>))
-                }
-            </div>
+            onMouseDown={onClick}
+            // onContextMenu={onClick}
+            id="space">
+            {
+                notes.map((note, index) => {
+                    if (note) {
+                        return (<Note note={note}
+                            key={index}
+                            id={'note' + index}></Note>)
+                    }
+                })
+            }
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-
+import ReactDOM from 'react-dom';
+import Note from '../components/Note'
 import notasExemplo from '../utils/notasExemplo'
 
 import { getAtualScale, editor, pixelToXPosition, pixelToYPosition } from '../components/NotesEditor'
@@ -62,16 +63,19 @@ export function NotesContextProvider(props) {
 
     const addNote = (start, height) => {
         const newNote = { start, height, duration: hardCodedDuration }
+        // const newIndex = notes.push(newNote)
         setNotes(notes.concat(newNote))
+        // const element = (<Note note={newNote} key={newIndex} id={'note' + newIndex}></Note>)
+        // console.log(notes)
+        //ReactDOM.render(element, editor)
         return newNote
     }
 
     const removeNote = (note) => {
-        const newNotes = notes.filter(element => {
-            return element !== note
-        })
-        setNotes([])
-        setNotes(newNotes)
+        const index = notes.indexOf(note)
+        console.log('index', index)
+        notes[index] = null
+        setNotes([...notes])
     }
 
     html.onmouseup = () => {

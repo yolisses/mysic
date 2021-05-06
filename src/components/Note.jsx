@@ -45,6 +45,7 @@ export default function Note(props) {
         > { start}
             < div className="duration-handle"
                 onMouseDown={(e) => { e.stopPropagation(); addToScaling(props.note, duration, setDuration); startScale(e); }}>
+                {Math.random()}
             </div >
         </div >
     )
