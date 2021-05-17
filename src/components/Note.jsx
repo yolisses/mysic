@@ -24,7 +24,7 @@ export default function Note(props) {
 
     const onMouseDown = (e) => {
         e.stopPropagation();
-        if (e.button != 0) return;
+        if (e.button !== 0) return;
         addToMoving(props.note, setStart, setHeight);
         startMove();
     }
@@ -33,7 +33,7 @@ export default function Note(props) {
         setStart(props.note.start)
         setHeight(props.note.height)
         setDuration(props.note.duration)
-    })
+    }, [props.note.start, props.note.height, props.note.duration])
 
     return (
         <div
@@ -41,11 +41,11 @@ export default function Note(props) {
             style={{ '--start': start, '--height': height, '--duration': duration }}
             id={id}
             onMouseDown={onMouseDown}
-            onContextMenu={onContextMenu}
-        > { start}
+            onContextMenu={onContextMenu}>
+            {/* > {start} */}
             < div className="duration-handle"
                 onMouseDown={(e) => { e.stopPropagation(); addToScaling(props.note, duration, setDuration); startScale(e); }}>
-                {Math.random()}
+                {/* {Math.random()} */}
             </div >
         </div >
     )

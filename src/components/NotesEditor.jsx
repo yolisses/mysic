@@ -1,11 +1,11 @@
-import { React, ReactDOM, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import Note from './Note'
 
 import { useNotes } from '../contexts/NotesContext'
 
 import "./NotesEditor.css";
 
-const zoom_step = 5;
+const zoom_step = 1;
 
 export let editor = document.querySelector('.notes-editor')
 
@@ -63,13 +63,13 @@ function NotesEditor() {
     })
 
     function onClick(event) {
-        if (event.button == 0) {
+        if (event.button === 0) {
             const start = pixelToXPosition(event.screenX)
             const height = pixelToYPosition(event.screenY)
             addNote(start, height)
         }
 
-        if (event.button == 2) {
+        if (event.button === 2) {
             console.log('direito')
         }
 
@@ -90,6 +90,7 @@ function NotesEditor() {
                             key={index}
                             id={'note' + index}></Note>)
                     }
+                    return null
                 })
             }
         </div>

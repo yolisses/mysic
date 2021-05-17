@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import ReactDOM from 'react-dom';
-import Note from '../components/Note'
+import React, { createContext, useContext, useState } from 'react'
 import notasExemplo from '../utils/notasExemplo'
 
-import { getAtualScale, editor, pixelToXPosition, pixelToYPosition } from '../components/NotesEditor'
+import { pixelToXPosition, pixelToYPosition } from '../components/NotesEditor'
 
 const html = document.querySelector('html');
 
