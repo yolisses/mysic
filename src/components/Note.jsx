@@ -7,8 +7,10 @@ import { useNotes } from '../contexts/NotesContext'
 export default function Note(props) {
     const { id } = props
 
-    const { startMove, addToMoving } = useNotes()
-    const { startScale, addToScaling } = useNotes()
+    const { setAsFocusActionList } = useNotes()
+
+    const { startMove } = useNotes()
+    const { startScale } = useNotes()
     const { removeNote } = useNotes()
 
     const [start, setStart] = useState(props.note.start)
@@ -16,20 +18,23 @@ export default function Note(props) {
     const [duration, setDuration] = useState(props.note.duration)
 
     const onContextMenu = (e) => {
-        removeNote(props.note)
         e.preventDefault()
+        removeNote(props.note)
     }
 
     const onMouseDown = (e) => {
         e.stopPropagation();
         if (e.button !== 0) return;
-        addToMoving(props.note, setStart, setHeight);
+        setAsFocusActionList(props.note, (start, height) => {
+            setStart(start);
+            setHeight(height)
+        })
         startMove();
     }
 
     const handlerMouseDown = (e) => {
         e.stopPropagation();
-        addToScaling(props.note, duration, setDuration);
+        setAsFocusActionList(props.note, setDuration);
         startScale(e);
     }
 

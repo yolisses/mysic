@@ -9,40 +9,38 @@ export const NotesContext = createContext('')
 
 export function NotesContextProvider(props) {
     const [notes, setNotes] = useState([...notasExemplo])
-    const [selectedList, setSelectedList] = useState(
-        [7, 8, 9, 10, 11, 12].map(i => notes[i])
-    )
+    const [selectedList, setSelectedList] = useState()
 
-    let moving = []
-    let scaling = []
+    let actionFocusList = []
 
-    const addToMoving = (note, setStart, setHeight) => {
-        moving.push({ note, setStart, setHeight })
+    const clearFocusActionList = () => {
+        actionFocusList = []
     }
 
-    const addToScaling = (note, initialDuration, setDuration) => {
-        scaling.push({ note, initialDuration, setDuration })
+    const setAsFocusActionList = (note, action) => {
+        actionFocusList = [{ note, action }]
     }
 
     const startMove = () => {
         html.onmousemove = (e) => {
-            for (let coisa of moving) {
-                coisa.note.start = pixelToXPosition(e.screenX)
+            actionFocusList.map(item => {
+                item.note.start = pixelToXPosition(e.screenX)
                 //DANGEROUS: hard coded
-                coisa.note.height = pixelToYPosition(e.screenY)
-                coisa.setStart(coisa.note.start)
-                coisa.setHeight(coisa.note.height)
-            }
+                item.note.height = pixelToYPosition(e.screenY)
+                item.action(item.note.start, item.note.height)
+            })
         }
     }
 
     const startScale = (e) => {
         const initialMousePosition = pixelToXPosition(e.screenX)
+        const initialDurations = actionFocusList.map(item => item.note.duration)
         html.onmousemove = (e) => {
-            for (let coisa of scaling) {
-                coisa.note.duration = pixelToXPosition(e.screenX) - initialMousePosition + coisa.initialDuration
-                coisa.setDuration(coisa.note.duration)
-            }
+            actionFocusList.map((item, index) => {
+                const newDuration = pixelToXPosition(e.screenX) - initialMousePosition + initialDurations[index]
+                item.note.duration = newDuration
+                item.action(item.note.duration)
+            })
             e.preventDefault()
         }
     }
@@ -69,8 +67,7 @@ export function NotesContextProvider(props) {
 
     html.onmouseup = () => {
         endMove()
-        moving = []
-        scaling = []
+        clearFocusActionList()
     }
 
     html.onmousedown = (e) => {
@@ -83,10 +80,9 @@ export function NotesContextProvider(props) {
             setSelectedList,
             startMove,
             endMove,
-            addToMoving,
             startScale,
-            addToScaling,
             addNote,
+            setAsFocusActionList,
             removeNote,
         }}>
             {props.children}
