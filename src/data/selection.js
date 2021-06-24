@@ -19,7 +19,6 @@ export default class Selection {
 	}
 
 	toggleSelection(id) {
-		console.log(this.select);
 		if (!this.selected.includes(id)) {
 			this.selected.push(id);
 		} else {

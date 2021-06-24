@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer, useState } from 'react'
 import notasExemplo from '../utils/notasExemplo'
 
 import { pixelToXPosition, pixelToYPosition } from '../components/NotesEditor'
-import { initialState, reducer } from '../data/projectData';
+import { initialState, reducer } from '../data/projectData.js';
 
 const html = document.querySelector('html');
 
@@ -67,10 +67,10 @@ export function NotesContextProvider(props) {
         setNotes([...notes])
     }
 
-    html.onmouseup = () => {
-        endMove()
-        clearFocusActionList()
-    }
+    // html.onmouseup = () => {
+    //     endMove()
+    //     clearFocusActionList()
+    // }
 
     return (
         < NotesContext.Provider value={{

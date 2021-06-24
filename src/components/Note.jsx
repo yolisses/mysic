@@ -2,7 +2,7 @@ import "./Note.css"
 
 import React, { useReducer } from 'react'
 
-import { initialState, reducer } from '../data/projectData.jsx'
+import { initialState, reducer } from '../data/projectData.js'
 
 export default function Note(props) {
     const { id } = props
@@ -25,28 +25,6 @@ export default function Note(props) {
             state.selection.select(id)
     }
 
-    // const onMouseDown = (e) => {
-    //     e.stopPropagation();
-    //     if (e.button !== 0) return;
-    //     setAsFocusActionList(props.note, (start, height) => {
-    //         setStart(start);
-    //         setHeight(height)
-    //     })
-    //     startMove();
-    // }
-
-    // const handlerMouseDown = (e) => {
-    //     e.stopPropagation();
-    //     setAsFocusActionList(props.note, setDuration);
-    //     startScale(e);
-    // }
-
-    // useEffect(() => {
-    //     setStart(props.note.start)
-    //     setHeight(props.note.height)
-    //     setDuration(props.note.duration)
-    // }, [props.note.start, props.note.height, props.note.duration])
-
     return (
         <div
             className={"note"}
@@ -55,10 +33,6 @@ export default function Note(props) {
             onMouseDown={mouseDown}
             id={id}>
             {id}::{Math.round(Math.random() * 100)}
-            < div className="duration-handle">
-            </div >
+            < div className="duration-handle"></div >
         </div>)
 }
-
-// onMouseDown = { handlerMouseDown }
-// onMouseDown = { onMouseDown }

@@ -2,7 +2,7 @@ import { React, useEffect, useReducer } from 'react';
 import Note from './Note'
 
 import "./NotesEditor.css";
-import { initialState, reducer } from '../data/projectData';
+import { initialState, reducer } from '../data/projectData.js';
 
 const zoom_step = 1;
 
@@ -34,6 +34,7 @@ export function pixelToXPosition(positionInPixels) {
     return (positionInPixels + editor.scrollLeft) / getAtualScale()
 }
 
+//DANGEROUS: hard coded 
 export function pixelToYPosition(positionInPixels) {
     return parseInt((positionInPixels + editor.scrollTop - 80) / 20)
 }
