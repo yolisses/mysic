@@ -9,7 +9,6 @@ export const NotesContext = createContext('')
 
 export function NotesContextProvider(props) {
     const [notes, setNotes] = useState([...notasExemplo])
-    const [selectedList, setSelectedList] = useState()
 
     let actionFocusList = []
 
@@ -52,7 +51,6 @@ export function NotesContextProvider(props) {
 
     //DANGER: hard coded
     const hardCodedDuration = 4
-
     const addNote = (start, height) => {
         const newNote = { start, height, duration: hardCodedDuration }
         setNotes(notes.concat(newNote))
@@ -70,14 +68,9 @@ export function NotesContextProvider(props) {
         clearFocusActionList()
     }
 
-    html.onmousedown = (e) => {
-    }
-
     return (
         < NotesContext.Provider value={{
             notes,
-            selectedList,
-            setSelectedList,
             startMove,
             endMove,
             startScale,
