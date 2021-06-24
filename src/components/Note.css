@@ -1,13 +1,7 @@
-:root {
-	--note-green: #009900;
-	--note-green-a: #009900aa;
-	--note-blue-a: #39da;
-	--note-blue: #39d;
-	--px: 1px;
-}
-
 .note {
-	background-color: var(--note-green-a);
+	background-color: #090a;
+	border: solid #060 1px;
+	border-right: solid #080;
 	position: absolute;
 	box-sizing: border-box;
 	user-select: none;
@@ -18,8 +12,18 @@
 	/* border-bottom-left-radius: 4px;
 	border-top-left-radius: 4px; */
 	border-radius: 4px;
-	border: solid #005800 1px;
-	border-right: solid rgb(0, 122, 10);
+}
+
+.note[isselected='true'] {
+	background-color: #39da;
+	border: solid #39a 1px;
+	border-right: solid #3ad;
+}
+
+.note.selected {
+	background-color: #39da;
+	border: solid #39a 1px;
+	border-right: solid #3ad;
 }
 
 .note:hover {
@@ -36,6 +40,5 @@
 	right: 0;
 	top: 50%;
 	transform: translate(50%, -50%);
-	/* background-color: var(--note-green); */
 	cursor: ew-resize;
 }

@@ -78,14 +78,23 @@ function NotesEditor() {
             onMouseDown={mouseDown}
             id="space">
             {
-                (() => {
-                    const notes = []
-                    for (let id in state.notes) {
-                        notes.push(<Note id={id} key={id}></Note>)
-                    }
-                    return notes
-                }
-                )()
+                // (() => {
+                //     const notes = []
+                //     for (let id in state.notes) {
+                //         notes.push(<Note
+                //             id={id}
+                //             key={id}
+                //         ></Note>)
+                //     }
+                //     return notes
+                // }
+                // )()
+            }
+            {
+                console.log('coisa', state.notes)
+            }
+            {
+                Object.keys(state.notes).map(key => <Note id={key} key={key}>{key}</Note>)
             }
         </div>
     );

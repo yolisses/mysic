@@ -1,26 +1,31 @@
 import "./Note.css"
 
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 
 import { initialState, reducer } from '../data/projectData.jsx'
 
 export default function Note(props) {
     const { id } = props
-
     const [state, dispatch] = useReducer(reducer, initialState);
 
     if (!state.notes[id]) return <></>
     const { start, height, duration } = state.notes[id]
 
-    // const { setAsFocusActionList } = useNotes()
-
-    // const { startMove } = useNotes()
-    // const { startScale } = useNotes()
-    // const { removeNote } = useNotes()
-
     const onContextMenu = (e) => {
         e.preventDefault()
         dispatch({ type: 'remove', id })
+    }
+
+    const mouseDown = function (e) {
+        e.stopPropagation();
+        if (e.button !== 0) return;
+        if (e.shiftKey) {
+            console.log('shift')
+            dispatch({ type: 'addIntoSelection', id })
+        }
+        else {
+            dispatch({ type: 'select', id })
+        }
     }
 
     // const onMouseDown = (e) => {
@@ -47,10 +52,12 @@ export default function Note(props) {
 
     return (
         <div
-            className='note'
+            className={"note"}
             style={{ '--start': start, '--height': height, '--duration': duration }}
             onContextMenu={onContextMenu}
+            onMouseDown={mouseDown}
             id={id}>
+            {id}
             < div className="duration-handle">
             </div >
         </div>)

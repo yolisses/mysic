@@ -1,13 +1,9 @@
 import NotesEditor from "./components/NotesEditor"
-import { NotesContextProvider } from "./contexts/NotesContext";
+// import { NotesContextProvider } from "./contexts/NotesContext";
 
 function App() {
   return (
-    <NotesContextProvider>
-      <div>
-        <NotesEditor></NotesEditor>
-      </div>
-    </NotesContextProvider>
+    <NotesEditor></NotesEditor>
   );
 }
 
