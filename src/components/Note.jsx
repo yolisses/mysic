@@ -1,6 +1,6 @@
 import "./Note.css"
 
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 
 import { initialState, reducer } from '../data/projectData.jsx'
 
@@ -19,13 +19,10 @@ export default function Note(props) {
     const mouseDown = function (e) {
         e.stopPropagation();
         if (e.button !== 0) return;
-        if (e.shiftKey) {
-            console.log('shift')
-            dispatch({ type: 'addIntoSelection', id })
-        }
-        else {
-            dispatch({ type: 'select', id })
-        }
+        if (e.shiftKey)
+            state.selection.toggleSelection(id)
+        else
+            state.selection.select(id)
     }
 
     // const onMouseDown = (e) => {
@@ -57,7 +54,7 @@ export default function Note(props) {
             onContextMenu={onContextMenu}
             onMouseDown={mouseDown}
             id={id}>
-            {id}
+            {id}::{Math.round(Math.random() * 100)}
             < div className="duration-handle">
             </div >
         </div>)

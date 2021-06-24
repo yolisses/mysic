@@ -62,7 +62,11 @@ function NotesEditor() {
         if (event.button === 0) {
             const start = pixelToXPosition(event.screenX)
             const height = pixelToYPosition(event.screenY)
-            dispatch({ type: 'add', start, height })
+            if (!state.selection.isEmpty()) {
+                state.selection.clear()
+            } else {
+                dispatch({ type: 'add', start, height })
+            }
         }
 
         event.stopPropagation()
@@ -77,25 +81,10 @@ function NotesEditor() {
             tabIndex="0"
             onMouseDown={mouseDown}
             id="space">
-            {
-                // (() => {
-                //     const notes = []
-                //     for (let id in state.notes) {
-                //         notes.push(<Note
-                //             id={id}
-                //             key={id}
-                //         ></Note>)
-                //     }
-                //     return notes
-                // }
-                // )()
-            }
-            {
-                console.log('coisa', state.notes)
-            }
-            {
-                Object.keys(state.notes).map(key => <Note id={key} key={key}>{key}</Note>)
-            }
+            {Object.keys(state.notes).map(key =>
+                <Note id={key} key={key}>
+                    {key}
+                </Note>)}
         </div>
     );
 }

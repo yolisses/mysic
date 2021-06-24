@@ -14,12 +14,6 @@
 	border-radius: 4px;
 }
 
-.note[isselected='true'] {
-	background-color: #39da;
-	border: solid #39a 1px;
-	border-right: solid #3ad;
-}
-
 .note.selected {
 	background-color: #39da;
 	border: solid #39a 1px;

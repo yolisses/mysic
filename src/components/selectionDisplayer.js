@@ -7,5 +7,7 @@ export default function redisplay(selected) {
 	elements = [...document.getElementsByClassName('note')].filter((item) =>
 		selected.includes(item.getAttribute('id'))
 	);
-	elements.forEach((element) => element.classList.add('selected'));
+	elements.forEach((element) => {
+		element.classList.add('selected');
+	});
 }
