@@ -1,9 +1,8 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useReducer } from 'react';
 import Note from './Note'
 
-import { useNotes } from '../contexts/NotesContext'
-
 import "./NotesEditor.css";
+import { initialState, reducer } from '../data/projectData';
 
 const zoom_step = 1;
 
@@ -49,10 +48,8 @@ function keyPress(event) {
     if (callBack) callBack();
 }
 
-
-
 function NotesEditor() {
-    let { notes, addNote } = useNotes()
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
         editor = document.querySelector('.notes-editor')
@@ -65,7 +62,7 @@ function NotesEditor() {
         if (event.button === 0) {
             const start = pixelToXPosition(event.screenX)
             const height = pixelToYPosition(event.screenY)
-            addNote(start, height)
+            dispatch({ type: 'add', start, height })
         }
 
         event.stopPropagation()
@@ -81,14 +78,14 @@ function NotesEditor() {
             onMouseDown={mouseDown}
             id="space">
             {
-                notes.map((note, index) => {
-                    if (note) {
-                        return (<Note note={note}
-                            key={index}
-                            id={'note' + index}></Note>)
+                (() => {
+                    const notes = []
+                    for (let id in state.notes) {
+                        notes.push(<Note id={id} key={id}></Note>)
                     }
-                    return null
-                })
+                    return notes
+                }
+                )()
             }
         </div>
     );

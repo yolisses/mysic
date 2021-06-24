@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useReducer, useState } from 'react'
 import notasExemplo from '../utils/notasExemplo'
 
 import { pixelToXPosition, pixelToYPosition } from '../components/NotesEditor'
+import { initialState, reducer } from '../data/projectData';
 
 const html = document.querySelector('html');
 
@@ -49,12 +50,15 @@ export function NotesContextProvider(props) {
         }
     }
 
+    const [state, dispatch] = useReducer(reducer, initialState);
     //DANGER: hard coded
     const hardCodedDuration = 4
     const addNote = (start, height) => {
-        const newNote = { start, height, duration: hardCodedDuration }
-        setNotes(notes.concat(newNote))
-        return newNote
+        // dispatch({ type: 'add' })
+        // const newNote = { start, height, duration: hardCodedDuration }
+        // setNotes(notes.concat(newNote))
+        // return newNote
+
     }
 
     const removeNote = (note) => {

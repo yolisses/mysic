@@ -1,59 +1,60 @@
 import "./Note.css"
 
-import React, { useEffect, useState } from 'react'
+import React, { useReducer } from 'react'
 
-import { useNotes } from '../contexts/NotesContext'
+import { initialState, reducer } from '../data/projectData.jsx'
 
 export default function Note(props) {
     const { id } = props
 
-    const { setAsFocusActionList } = useNotes()
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { startMove } = useNotes()
-    const { startScale } = useNotes()
-    const { removeNote } = useNotes()
+    if (!state.notes[id]) return <></>
+    const { start, height, duration } = state.notes[id]
 
-    const [start, setStart] = useState(props.note.start)
-    const [height, setHeight] = useState(props.note.height)
-    const [duration, setDuration] = useState(props.note.duration)
+    // const { setAsFocusActionList } = useNotes()
+
+    // const { startMove } = useNotes()
+    // const { startScale } = useNotes()
+    // const { removeNote } = useNotes()
 
     const onContextMenu = (e) => {
         e.preventDefault()
-        removeNote(props.note)
+        dispatch({ type: 'remove', id })
     }
 
-    const onMouseDown = (e) => {
-        e.stopPropagation();
-        if (e.button !== 0) return;
-        setAsFocusActionList(props.note, (start, height) => {
-            setStart(start);
-            setHeight(height)
-        })
-        startMove();
-    }
+    // const onMouseDown = (e) => {
+    //     e.stopPropagation();
+    //     if (e.button !== 0) return;
+    //     setAsFocusActionList(props.note, (start, height) => {
+    //         setStart(start);
+    //         setHeight(height)
+    //     })
+    //     startMove();
+    // }
 
-    const handlerMouseDown = (e) => {
-        e.stopPropagation();
-        setAsFocusActionList(props.note, setDuration);
-        startScale(e);
-    }
+    // const handlerMouseDown = (e) => {
+    //     e.stopPropagation();
+    //     setAsFocusActionList(props.note, setDuration);
+    //     startScale(e);
+    // }
 
-    useEffect(() => {
-        setStart(props.note.start)
-        setHeight(props.note.height)
-        setDuration(props.note.duration)
-    }, [props.note.start, props.note.height, props.note.duration])
+    // useEffect(() => {
+    //     setStart(props.note.start)
+    //     setHeight(props.note.height)
+    //     setDuration(props.note.duration)
+    // }, [props.note.start, props.note.height, props.note.duration])
 
     return (
         <div
             className='note'
             style={{ '--start': start, '--height': height, '--duration': duration }}
-            id={id}
-            onMouseDown={onMouseDown}
-            onContextMenu={onContextMenu}>
-            < div className="duration-handle"
-                onMouseDown={handlerMouseDown}>
+            onContextMenu={onContextMenu}
+            id={id}>
+            < div className="duration-handle">
             </div >
-        </div >
-    )
+        </div>)
 }
+
+// onMouseDown = { handlerMouseDown }
+// onMouseDown = { onMouseDown }
