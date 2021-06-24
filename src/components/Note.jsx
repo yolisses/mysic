@@ -16,8 +16,6 @@ export default function Note(props) {
     const [duration, setDuration] = useState(props.note.duration)
 
     const onContextMenu = (e) => {
-        console.log('nota a ser removida', props.note)
-        console.log(onContextMenu)
         removeNote(props.note)
         e.preventDefault()
     }
@@ -42,10 +40,8 @@ export default function Note(props) {
             id={id}
             onMouseDown={onMouseDown}
             onContextMenu={onContextMenu}>
-            {/* > {start} */}
             < div className="duration-handle"
                 onMouseDown={(e) => { e.stopPropagation(); addToScaling(props.note, duration, setDuration); startScale(e); }}>
-                {/* {Math.random()} */}
             </div >
         </div >
     )

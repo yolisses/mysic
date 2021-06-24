@@ -25,9 +25,7 @@ export function NotesContextProvider(props) {
     }
 
     const startMove = () => {
-        console.log('start move')
         html.onmousemove = (e) => {
-            console.log('moving')
             for (let coisa of moving) {
                 coisa.note.start = pixelToXPosition(e.screenX)
                 //DANGEROUS: hard coded
@@ -39,10 +37,8 @@ export function NotesContextProvider(props) {
     }
 
     const startScale = (e) => {
-        console.log('start scale')
         const initialMousePosition = pixelToXPosition(e.screenX)
         html.onmousemove = (e) => {
-            console.log('scaling')
             for (let coisa of scaling) {
                 coisa.note.duration = pixelToXPosition(e.screenX) - initialMousePosition + coisa.initialDuration
                 coisa.setDuration(coisa.note.duration)
@@ -61,17 +57,12 @@ export function NotesContextProvider(props) {
 
     const addNote = (start, height) => {
         const newNote = { start, height, duration: hardCodedDuration }
-        // const newIndex = notes.push(newNote)
         setNotes(notes.concat(newNote))
-        // const element = (<Note note={newNote} key={newIndex} id={'note' + newIndex}></Note>)
-        // console.log(notes)
-        //ReactDOM.render(element, editor)
         return newNote
     }
 
     const removeNote = (note) => {
         const index = notes.indexOf(note)
-        console.log('index', index)
         notes[index] = null
         setNotes([...notes])
     }
@@ -98,7 +89,7 @@ export function NotesContextProvider(props) {
             addNote,
             removeNote,
         }}>
-            { props.children}
+            {props.children}
         </ NotesContext.Provider>
     )
 }

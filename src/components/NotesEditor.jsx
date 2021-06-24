@@ -45,7 +45,6 @@ const keyMap = {
 }
 
 function keyPress(event) {
-    console.log(event)
     const callBack = keyMap[event.key]
     if (callBack) callBack();
 }
@@ -69,10 +68,6 @@ function NotesEditor() {
             addNote(start, height)
         }
 
-        if (event.button === 2) {
-            console.log('direito')
-        }
-
         event.stopPropagation()
         event.preventDefault()
     }
@@ -81,7 +76,6 @@ function NotesEditor() {
         // tabindex specifically to listen keypress
         <div className="notes-editor" onKeyPress={keyPress} tabIndex="0"
             onMouseDown={onClick}
-            // onContextMenu={onClick}
             id="space">
             {
                 notes.map((note, index) => {

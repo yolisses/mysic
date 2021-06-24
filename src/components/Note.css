@@ -39,14 +39,3 @@
 	/* background-color: var(--note-green); */
 	cursor: ew-resize;
 }
-
-/* .duration-handle::after {
-	content: '';
-	height: 80%;
-	width: 2px;
-	position: absolute;
-	right: 50%;
-	top: 50%;
-	transform: translate(50%, -50%);
-	background-color: green;
-} */
