@@ -27,6 +27,12 @@ export default function Note(props) {
         startMove();
     }
 
+    const handlerMouseDown = (e) => {
+        e.stopPropagation();
+        addToScaling(props.note, duration, setDuration);
+        startScale(e);
+    }
+
     useEffect(() => {
         setStart(props.note.start)
         setHeight(props.note.height)
@@ -41,7 +47,7 @@ export default function Note(props) {
             onMouseDown={onMouseDown}
             onContextMenu={onContextMenu}>
             < div className="duration-handle"
-                onMouseDown={(e) => { e.stopPropagation(); addToScaling(props.note, duration, setDuration); startScale(e); }}>
+                onMouseDown={handlerMouseDown}>
             </div >
         </div >
     )
