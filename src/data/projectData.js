@@ -62,10 +62,10 @@ export function reducer(state, action) {
 						obj.freezedValues.initialMousePosition[1];
 
 					obj.notes[index].start = calculatedStart >= 0 ? calculatedStart : 0;
-					obj.notes[index].height = calculatedHeight;
-					// calculatedHeight >= 0 && calculatedHeight <= 10
-					// 	? calculatedHeight
-					// 	: 10;
+					obj.notes[index].height =
+						calculatedHeight >= 0 && calculatedHeight <= 88
+							? calculatedHeight
+							: 88;
 				}
 				return obj;
 
