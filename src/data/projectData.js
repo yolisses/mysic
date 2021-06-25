@@ -14,7 +14,6 @@ export const initialState = {
 		this.selection.selected.map(
 			(index) => (this.freezedValues[index] = { ...this.notes[index] })
 		);
-		console.log(this.freezedValues);
 	},
 };
 

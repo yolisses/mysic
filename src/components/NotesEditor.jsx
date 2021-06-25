@@ -38,7 +38,6 @@ function NotesEditor() {
         state.freezeSelectionValues()
         state.freezedValues.initialMouseEvent = event
         state.freezedValues.initialMousePosition = eventToPosition(event)
-        console.log('coisa', state.freezedValues)
         html.onmousemove = (e) => {
             dispatch({ type: 'scale', position: eventToPosition(e) })
         }

@@ -1,5 +1,4 @@
 import NotesEditor from "./components/NotesEditor"
-// import { NotesContextProvider } from "./contexts/NotesContext";
 
 function App() {
   return (
