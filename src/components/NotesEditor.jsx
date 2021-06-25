@@ -11,14 +11,19 @@ function NotesEditor() {
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
+    function eventToPosition(event) {
+        const start = (event.clientX + umaRef.current.scrollLeft) / 20
+        const height = Math.floor((event.clientY + umaRef.current.scrollTop) / 20)
+        return [start, height]
+    }
+
     function mouseDown(event) {
         console.log(umaRef.current)
         if (event.button === 0) {
             if (!state.selection.isEmpty()) {
                 state.selection.clear()
             } else {
-                const start = (event.clientX + umaRef.current.scrollLeft) / 20
-                const height = Math.floor((event.clientY + umaRef.current.scrollTop) / 20)
+                const [start, height] = eventToPosition(event)
                 console.log('event.ScreenY: ', event.screenY)
                 console.log('current.scrollTop: ', umaRef.current.scrollTop)
                 console.log(event)
