@@ -46,7 +46,7 @@ function NotesEditor() {
         else {
             state.freezeOneNote(id)
         }
-        state.freezedValues.initialMouseEvent = event
+        // state.freezedValues.initialMouseEvent = event
         state.freezedValues.initialMousePosition = eventToPosition(event)
         html.onmousemove = (e) => {
             dispatch({ type: 'scale', position: eventToPosition(e) })
@@ -63,11 +63,16 @@ function NotesEditor() {
         else {
             state.freezeOneNote(id)
         }
-        state.freezedValues.initialMouseEvent = event
-        state.freezedValues.initialMousePosition = eventToPosition(event)
+        const initialPosition = eventToPosition(event)
+        state.freezedValues.initialMousePosition = initialPosition
         html.onmousemove = (e) => {
+            const position = eventToPosition(e)
+            if (e.shiftKey)
+                position[1] = initialPosition[1]
+            if (e.ctrlKey)
+                position[0] = initialPosition[0]
             clickOrMove.allowClick = false
-            dispatch({ type: 'move', position: eventToPosition(e) })
+            dispatch({ type: 'move', position })
         }
         html.onmouseup = () => {
             html.onmousemove = null
@@ -84,11 +89,15 @@ function NotesEditor() {
         }
     }
 
+    function onKeyPress(e) {
+        console.log(e)
+        console.log('oi')
+    }
+
     return (
         // tabindex specifically to listen keypress
         <div
             className="notes-editor"
-            tabIndex="0"
             onMouseDown={mouseDown}
             id="space"
             ref={umaRef}
@@ -97,17 +106,15 @@ function NotesEditor() {
             }}
             onWheel={onWheel}
         >
-            {
-                Object.keys(state.notes).map(key =>
-                    <Note
-                        id={key}
-                        key={key}
-                        scale={scale}
-                        move={move}
-                    >
-                        {key}
-                    </Note>)
-            }
+            {Object.keys(state.notes).map(key =>
+                <Note
+                    id={key}
+                    key={key}
+                    scale={scale}
+                    move={move}
+                >
+                    {key}
+                </Note>)}
         </div>
     );
 }
