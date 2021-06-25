@@ -1,71 +1,27 @@
-import { React, useEffect, useReducer } from 'react';
+import { React, useReducer, useRef } from 'react';
+import { initialState, reducer } from '../data/projectData';
+
 import Note from './Note'
 
 import "./NotesEditor.css";
-import { initialState, reducer } from '../data/projectData.js';
-
-const zoom_step = 1;
-
-export let editor = document.querySelector('.notes-editor')
-
-export function getAtualScale() {
-    return parseInt(document.documentElement.style.getPropertyValue('--scale'))
-}
-
-export function setActualScale(value) {
-    document.documentElement.style.setProperty('--scale', value);
-}
-
-function zoom_in() {
-    const actual = getAtualScale() || 10
-    setActualScale(actual + zoom_step);
-}
-
-function zoom_out() {
-    const actual = getAtualScale() || 10
-    setActualScale((actual - zoom_step));
-}
-
-(function scale_init() {
-    setActualScale(20);
-})()
-
-export function pixelToXPosition(positionInPixels) {
-    return (positionInPixels + editor.scrollLeft) / getAtualScale()
-}
-
-//DANGEROUS: hard coded 
-export function pixelToYPosition(positionInPixels) {
-    return parseInt((positionInPixels + editor.scrollTop - 80) / 20)
-}
-
-const keyMap = {
-    '+': zoom_in,
-    '-': zoom_out
-}
-
-function keyPress(event) {
-    const callBack = keyMap[event.key]
-    if (callBack) callBack();
-}
 
 function NotesEditor() {
-    const [state, dispatch] = useReducer(reducer, initialState);
 
-    useEffect(() => {
-        editor = document.querySelector('.notes-editor')
-        editor.oncontextmenu = (e) => {
-            e.preventDefault()
-        };
-    })
+    const umaRef = useRef(null);
+
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     function mouseDown(event) {
+        console.log(umaRef.current)
         if (event.button === 0) {
-            const start = pixelToXPosition(event.screenX)
-            const height = pixelToYPosition(event.screenY)
             if (!state.selection.isEmpty()) {
                 state.selection.clear()
             } else {
+                const start = (event.clientX + umaRef.current.scrollLeft) / 20
+                const height = Math.floor((event.clientY + umaRef.current.scrollTop) / 20)
+                console.log('event.ScreenY: ', event.screenY)
+                console.log('current.scrollTop: ', umaRef.current.scrollTop)
+                console.log(event)
                 dispatch({ type: 'add', start, height })
             }
         }
@@ -78,14 +34,17 @@ function NotesEditor() {
         // tabindex specifically to listen keypress
         <div
             className="notes-editor"
-            onKeyPress={keyPress}
             tabIndex="0"
             onMouseDown={mouseDown}
-            id="space">
-            {Object.keys(state.notes).map(key =>
-                <Note id={key} key={key}>
-                    {key}
-                </Note>)}
+            id="space"
+            ref={umaRef}
+        >
+            {
+                Object.keys(state.notes).map(key =>
+                    <Note id={key} key={key}>
+                        {key}
+                    </Note>)
+            }
         </div>
     );
 }

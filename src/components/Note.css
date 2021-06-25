@@ -1,6 +1,7 @@
 .note {
-	background-color: #090a;
-	border: solid #060 1px;
+	background-color: #090b;
+	/* border: solid #060 1px; */
+	border: solid rgb(0, 90, 0) 1px;
 	border-right: solid #080;
 	position: absolute;
 	box-sizing: border-box;
@@ -15,7 +16,7 @@
 }
 
 .note.selected {
-	background-color: #39da;
+	background-color: #39db;
 	border: solid #39a 1px;
 	border-right: solid #3ad;
 }
