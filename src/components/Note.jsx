@@ -16,13 +16,18 @@ export default function Note(props) {
         dispatch({ type: 'remove', id })
     }
 
-    const mouseDown = function (e) {
+    const mouseDown = (e) => {
         e.stopPropagation();
         if (e.button !== 0) return;
         if (e.shiftKey)
             state.selection.toggleSelection(id)
         else
             state.selection.select(id)
+    }
+
+    const mouseDownHandler = (e) => {
+        e.stopPropagation();
+        props.scale(e)
     }
 
     return (
@@ -33,6 +38,9 @@ export default function Note(props) {
             onMouseDown={mouseDown}
             id={id}>
             {/* {id}::{Math.round(Math.random() * 100)} */}
-            < div className="duration-handle"></div >
+            < div
+                className="duration-handle"
+                onMouseDown={mouseDownHandler}
+            ></div >
         </div>)
 }

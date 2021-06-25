@@ -5,6 +5,8 @@ import Note from './Note'
 
 import "./NotesEditor.css";
 
+const html = document.querySelector('html')
+
 function NotesEditor() {
 
     const umaRef = useRef(null);
@@ -18,21 +20,31 @@ function NotesEditor() {
     }
 
     function mouseDown(event) {
-        console.log(umaRef.current)
         if (event.button === 0) {
             if (!state.selection.isEmpty()) {
                 state.selection.clear()
             } else {
                 const [start, height] = eventToPosition(event)
-                console.log('event.ScreenY: ', event.screenY)
-                console.log('current.scrollTop: ', umaRef.current.scrollTop)
-                console.log(event)
                 dispatch({ type: 'add', start, height })
             }
         }
 
         event.stopPropagation()
         event.preventDefault()
+    }
+
+    function scale(event) {
+        state.marcador = true
+        state.freezeSelectionValues()
+        state.freezedValues.initialMouseEvent = event
+        state.freezedValues.initialMousePosition = eventToPosition(event)
+        console.log('coisa', state.freezedValues)
+        html.onmousemove = (e) => {
+            dispatch({ type: 'scale', position: eventToPosition(e) })
+        }
+        html.onmouseup = () => {
+            html.onmousemove = null
+        }
     }
 
     return (
@@ -46,7 +58,11 @@ function NotesEditor() {
         >
             {
                 Object.keys(state.notes).map(key =>
-                    <Note id={key} key={key}>
+                    <Note
+                        id={key}
+                        key={key}
+                        scale={scale}
+                    >
                         {key}
                     </Note>)
             }

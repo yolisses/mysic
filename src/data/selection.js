@@ -3,6 +3,7 @@ import redisplay from '../components/selectionDisplayer';
 export default class Selection {
 	constructor() {
 		this.selected = [];
+		this.freezedValues = {};
 	}
 
 	select(id) {
@@ -34,5 +35,11 @@ export default class Selection {
 
 	isEmpty() {
 		return this.selected.length === 0;
+	}
+
+	freezeSelectionValues(state) {
+		this.selected.map(
+			(index) => (this.freezedValues[index] = state.notes[index])
+		);
 	}
 }

@@ -8,6 +8,14 @@ export const initialState = {
 		return this._lastAdded;
 	},
 	selection: new Selection(),
+	freezedValues: {},
+	freezeSelectionValues() {
+		this.freezedValues = {};
+		this.selection.selected.map(
+			(index) => (this.freezedValues[index] = { ...this.notes[index] })
+		);
+		console.log(this.freezedValues);
+	},
 };
 
 export function reducer(state, action) {
@@ -25,6 +33,15 @@ export function reducer(state, action) {
 
 			case 'remove':
 				delete obj.notes[action.id];
+				return obj;
+
+			case 'scale':
+				obj.selection.selected.map((index) => {
+					obj.notes[index].duration =
+						obj.freezedValues[index].duration +
+						action.position[0] -
+						obj.freezedValues.initialMousePosition[0];
+				});
 				return obj;
 
 			default:
