@@ -50,6 +50,17 @@ export function reducer(state, action) {
 				}
 				return obj;
 
+			case 'move':
+				for (let index in obj.freezedValues.notes) {
+					const calculatedStart =
+						obj.freezedValues.notes[index].start +
+						action.position[0] -
+						obj.freezedValues.initialMousePosition[0];
+
+					obj.notes[index].start = calculatedStart >= 0 ? calculatedStart : 0;
+				}
+				return obj;
+
 			default:
 				throw new Error("Reducer error, verify the function you're calling");
 		}

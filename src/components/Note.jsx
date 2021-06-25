@@ -3,6 +3,7 @@ import "./Note.css"
 import React, { useReducer } from 'react'
 
 import { initialState, reducer } from '../data/projectData.js'
+import clickOrMove from "../data/clickOrMove";
 
 export default function Note(props) {
     const { id } = props
@@ -18,11 +19,31 @@ export default function Note(props) {
 
     const mouseDown = (e) => {
         e.stopPropagation();
+        clickOrMove.allowClick = true
+        if (!e.shiftKey)
+            props.move(e, id)
+        else {
+            if (clickOrMove.allowClick) {
+                if (e.shiftKey)
+                    state.selection.toggleSelection(id)
+                else
+                    state.selection.select(id)
+                clickOrMove.allowClick = false
+            }
+        }
+    }
+
+    const mouseUp = (e) => {
+        // e.stopPropagation();
+
         if (e.button !== 0) return;
-        if (e.shiftKey)
-            state.selection.toggleSelection(id)
-        else
-            state.selection.select(id)
+        if (clickOrMove.allowClick) {
+            if (e.shiftKey)
+                state.selection.toggleSelection(id)
+            else
+                state.selection.select(id)
+            clickOrMove.allowClick = false
+        }
     }
 
     const mouseDownHandler = (e) => {
@@ -36,6 +57,7 @@ export default function Note(props) {
         <div
             className={"note"}
             style={{ '--start': start, '--height': height, '--duration': duration }}
+            onMouseUp={mouseUp}
             onContextMenu={onContextMenu}
             onMouseDown={mouseDown}
             id={id}>

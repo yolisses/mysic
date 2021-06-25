@@ -1,4 +1,5 @@
 import { React, useReducer, useRef } from 'react';
+import clickOrMove from '../data/clickOrMove';
 import { initialState, reducer } from '../data/projectData';
 
 import Note from './Note'
@@ -22,10 +23,12 @@ function NotesEditor() {
     function mouseDown(event) {
         if (event.button === 0) {
             if (!state.selection.isEmpty()) {
-                state.selection.clear()
+                if (!event.shiftKey)
+                    state.selection.clear()
             } else {
                 const [start, height] = eventToPosition(event)
                 dispatch({ type: 'add', start, height })
+                clickOrMove.allowClick = false
             }
         }
 
@@ -50,6 +53,24 @@ function NotesEditor() {
         }
     }
 
+    function move(event, id) {
+        if (state.selection.selected.includes(id)) {
+            state.freezeSelectionValues()
+        }
+        else {
+            state.freezeOneNote(id)
+        }
+        state.freezedValues.initialMouseEvent = event
+        state.freezedValues.initialMousePosition = eventToPosition(event)
+        html.onmousemove = (e) => {
+            clickOrMove.allowClick = false
+            dispatch({ type: 'move', position: eventToPosition(e) })
+        }
+        html.onmouseup = () => {
+            html.onmousemove = null
+        }
+    }
+
     return (
         // tabindex specifically to listen keypress
         <div
@@ -65,6 +86,7 @@ function NotesEditor() {
                         id={key}
                         key={key}
                         scale={scale}
+                        move={move}
                     >
                         {key}
                     </Note>)
