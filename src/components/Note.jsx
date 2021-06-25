@@ -27,7 +27,7 @@ export default function Note(props) {
 
     const mouseDownHandler = (e) => {
         e.stopPropagation();
-        props.scale(e)
+        props.scale(e, id)
     }
 
     return (

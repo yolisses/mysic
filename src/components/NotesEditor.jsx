@@ -33,9 +33,13 @@ function NotesEditor() {
         event.preventDefault()
     }
 
-    function scale(event) {
-        state.marcador = true
-        state.freezeSelectionValues()
+    function scale(event, id) {
+        if (state.selection.selected.includes(id)) {
+            state.freezeSelectionValues()
+        }
+        else {
+            state.freezeOneNote(id)
+        }
         state.freezedValues.initialMouseEvent = event
         state.freezedValues.initialMousePosition = eventToPosition(event)
         html.onmousemove = (e) => {

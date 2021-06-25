@@ -8,12 +8,16 @@ export const initialState = {
 		return this._lastAdded;
 	},
 	selection: new Selection(),
-	freezedValues: {},
+	freezedValues: { notes: {} },
 	freezeSelectionValues() {
-		this.freezedValues = {};
+		this.freezedValues = { notes: {} };
 		this.selection.selected.map(
-			(index) => (this.freezedValues[index] = { ...this.notes[index] })
+			(index) => (this.freezedValues.notes[index] = { ...this.notes[index] })
 		);
+	},
+	freezeOneNote(id) {
+		this.freezedValues = { notes: {} };
+		this.freezedValues.notes[id] = { ...this.notes[id] };
 	},
 };
 
@@ -35,12 +39,15 @@ export function reducer(state, action) {
 				return obj;
 
 			case 'scale':
-				obj.selection.selected.map((index) => {
-					obj.notes[index].duration =
-						obj.freezedValues[index].duration +
+				for (let index in obj.freezedValues.notes) {
+					const calculatedDuration =
+						obj.freezedValues.notes[index].duration +
 						action.position[0] -
 						obj.freezedValues.initialMousePosition[0];
-				});
+
+					obj.notes[index].duration =
+						calculatedDuration >= 0 ? calculatedDuration : 0;
+				}
 				return obj;
 
 			default:
