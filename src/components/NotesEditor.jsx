@@ -1,6 +1,7 @@
-import { React, useReducer, useRef } from 'react';
+import { React, useReducer, useRef, useState } from 'react';
 import clickOrMove from '../data/clickOrMove';
 import { initialState, reducer } from '../data/projectData';
+import { clamp } from '../utils/clamp';
 
 import Note from './Note'
 
@@ -14,8 +15,10 @@ function NotesEditor() {
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
+    const [zoom, setZoom] = useState(20)
+
     function eventToPosition(event) {
-        const start = (event.clientX + umaRef.current.scrollLeft) / 20
+        const start = (event.clientX + umaRef.current.scrollLeft) / zoom
         const height = Math.floor((event.clientY + umaRef.current.scrollTop) / 20)
         return [start, height]
     }
@@ -71,6 +74,16 @@ function NotesEditor() {
         }
     }
 
+    function onWheel(event) {
+        if (event.shiftKey) {
+            umaRef.current.style.overflow = 'hidden'
+            const calculatedZoom = clamp(zoom + 0.005 * event.deltaY, 1, 100)
+            setZoom(calculatedZoom)
+        } else {
+            umaRef.current.style.overflow = 'auto'
+        }
+    }
+
     return (
         // tabindex specifically to listen keypress
         <div
@@ -79,6 +92,10 @@ function NotesEditor() {
             onMouseDown={mouseDown}
             id="space"
             ref={umaRef}
+            style={{
+                "--scale": zoom,
+            }}
+            onWheel={onWheel}
         >
             {
                 Object.keys(state.notes).map(key =>
