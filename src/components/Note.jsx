@@ -27,6 +27,8 @@ export default function Note(props) {
 
     const mouseDownHandler = (e) => {
         e.stopPropagation();
+        if (e.shiftKey)
+            state.selection.addInSelection(id)
         props.scale(e, id)
     }
 
