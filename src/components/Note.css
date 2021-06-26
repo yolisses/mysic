@@ -16,6 +16,7 @@
 	background-color: #39da;
 	border: solid #39a 1px;
 	border-right: solid #3ad;
+	z-index: 1;
 }
 
 .note:hover {
