@@ -73,7 +73,13 @@ export function reducer(state, action) {
 				return obj;
 
 			case 'selectBox':
-				obj.selection.clear();
+				if (action.keepInitialSelection) {
+					obj.selection.clear();
+					const indexes = Object.keys(obj.freezedValues.notes);
+					obj.selection.setSelected(indexes);
+				} else {
+					obj.selection.clear();
+				}
 				for (let index in obj.notes) {
 					const start = obj.notes[index].start;
 					const end = obj.notes[index].start + obj.notes[index].duration;

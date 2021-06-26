@@ -5,6 +5,11 @@ export default class Selection {
 		this.selected = [];
 	}
 
+	setSelected(newArray) {
+		this.selected = newArray;
+		redisplay(this.selected);
+	}
+
 	select(id) {
 		this.selected.length = 0;
 		this.selected.push(id);

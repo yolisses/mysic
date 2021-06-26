@@ -107,14 +107,12 @@ function NotesEditor() {
     function selectBox(event) {
         state.freezeSelectionValues()
 
-
-        outraRef.current.style.display = 'block'
-
         outraRef.current.style.width = 0;
         outraRef.current.style.height = 0;
 
         html.onmousemove = (e) => {
             clickOrMove.allowClick = false
+            outraRef.current.style.display = 'block'
             const [xStart, xEnd] = [event.clientX, e.clientX].sort((a, b) => a - b)
             const [yStart, yEnd] = [event.clientY, e.clientY].sort((a, b) => a - b)
 
@@ -124,11 +122,11 @@ function NotesEditor() {
             outraRef.current.style.width = xEnd - xStart + 'px';
             outraRef.current.style.height = yEnd - yStart + 'px';
 
-            const startPosition = eventToPosition(e)
             dispatch({
                 type: 'selectBox',
                 initialPosition: pixelToPosition(xStart, yStart),
-                finalPosition: pixelToPosition(xEnd, yEnd)
+                finalPosition: pixelToPosition(xEnd, yEnd),
+                keepInitialSelection: e.shiftKey
             })
         }
 
