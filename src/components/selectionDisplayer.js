@@ -1,4 +1,4 @@
-export default function redisplay(selected) {
+export function redisplay(selected) {
 	[...document.getElementsByClassName('selected')].forEach((element) => {
 		element.classList.remove('selected');
 	});

@@ -1,4 +1,4 @@
-import redisplay from '../components/selectionDisplayer';
+import { redisplay } from '../components/selectionDisplayer';
 
 export default class Selection {
 	constructor() {

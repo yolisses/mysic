@@ -1,10 +1,11 @@
-import { React, useReducer, useRef, useState } from 'react';
-import clickOrMove from '../data/clickOrMove';
-import copyAndPaste from '../data/copyAndPaste';
+import { React, useEffect, useReducer, useRef, useState } from 'react';
 import { initialState, reducer } from '../data/projectData';
-import { clamp } from '../utils/clamp';
 
 import Note from './Note'
+import { clamp } from '../utils/clamp';
+import clickOrMove from '../data/clickOrMove';
+import copyAndPaste from '../data/copyAndPaste';
+import { redisplay } from './selectionDisplayer';
 
 import "./NotesEditor.css";
 
@@ -16,6 +17,7 @@ function NotesEditor() {
     const outraRef = useRef(null)
 
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [reselect, setReselect] = useState(false)
 
     const [zoom, setZoom] = useState(20)
 
@@ -144,12 +146,16 @@ function NotesEditor() {
     }
 
     function onPaste(event) {
-        // const notesArray = Object.values(copyAndPaste.notes)
-        // state.addNotes(notesArray)
-        dispatch({
-            type: 'paste'
-        })
+        dispatch({ type: 'paste' })
+        setReselect(true)
     }
+
+    useEffect(() => {
+        if (reselect) {
+            setReselect(false)
+            redisplay(state.selection.selected)
+        }
+    }, [reselect, state.selection.selected]);
 
     function onWheel(event) {
         if (event.shiftKey) {

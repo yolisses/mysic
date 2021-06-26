@@ -1,6 +1,6 @@
+import Selection from './selection';
 import { clamp } from '../utils/clamp';
 import copyAndPaste from './copyAndPaste';
-import Selection from './selection';
 
 export const initialState = {
 	notes: {},
@@ -49,10 +49,10 @@ export function reducer(state, action) {
 				return obj;
 
 			case 'paste':
-				const addedIndexes = [];
+				obj.selection.clear();
 				Object.values(copyAndPaste.notes).forEach((note) => {
-					const id = obj.addNote(note);
-					addedIndexes.push(id);
+					const id = '' + obj.addNote(note);
+					obj.selection.addInSelection(id);
 				});
 				return obj;
 
