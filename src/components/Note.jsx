@@ -4,6 +4,7 @@ import React, { useReducer } from 'react'
 
 import { initialState, reducer } from '../data/projectData.js'
 import clickOrMove from "../data/clickOrMove";
+import copyAndPaste from "../data/copyAndPaste";
 
 export default function Note(props) {
     const { id } = props
@@ -15,16 +16,14 @@ export default function Note(props) {
     const mouseDown = (e) => {
         e.stopPropagation();
         clickOrMove.allowClick = true
-        if (!e.shiftKey)
-            props.move(e, id)
-        else {
+        if (e.shiftKey) {
             if (clickOrMove.allowClick) {
-                if (e.shiftKey)
-                    state.selection.toggleSelection(id)
-                else
-                    state.selection.select(id)
+                state.selection.toggleSelection(id)
                 clickOrMove.allowClick = false
             }
+        }
+        else {
+            props.noteMouseMove(e, id)
         }
     }
 
@@ -59,7 +58,7 @@ export default function Note(props) {
             onContextMenu={onContextMenu}
             onMouseDown={mouseDown}
             id={id}>
-            {/* {id}::{Math.round(Math.random() * 100)} */}
+            {id}::{Math.round(Math.random() * 100)}
             < div
                 className="duration-handle"
                 onMouseDown={mouseDownHandler}

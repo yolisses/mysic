@@ -75,6 +75,22 @@ function NotesEditor() {
         }
     }
 
+    function noteMouseMove(event, id) {
+        if (!event.ctrlKey) {
+            move(event, id)
+        } else {
+            duplicate(event)
+            move(event, id)
+        }
+    }
+
+    function duplicate(event) {
+        copyAndPaste.setNotes(state.getSelectedNotes())
+        console.log('copy')
+        dispatch({ type: 'paste' })
+        setReselect(true)
+    }
+
     function move(event, id) {
         if (state.selection.selected.includes(id)) {
             state.freezeSelectionValues()
@@ -147,7 +163,7 @@ function NotesEditor() {
     }
 
     function onPaste(event) {
-        dispatch({ type: 'paste' })
+        dispatch({ type: 'paste', autoSelect: true })
         setReselect(true)
     }
 
@@ -191,6 +207,8 @@ function NotesEditor() {
                     scale={scale}
                     move={move}
                     remove={remove}
+                    duplicate={duplicate}
+                    noteMouseMove={noteMouseMove}
                 >
                 </Note>)}
             <div className="select-box" ref={outraRef}></div>

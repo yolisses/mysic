@@ -49,10 +49,10 @@ export function reducer(state, action) {
 				return obj;
 
 			case 'paste':
-				obj.selection.clear();
+				if (action.autoSelect) obj.selection.clear();
 				Object.values(copyAndPaste.notes).forEach((note) => {
 					const id = '' + obj.addNote(note);
-					obj.selection.addInSelection(id);
+					if (action.autoSelect) obj.selection.addInSelection(id);
 				});
 				return obj;
 
