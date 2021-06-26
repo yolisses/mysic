@@ -69,6 +69,18 @@ export function reducer(state, action) {
 				}
 				return obj;
 
+			// case 'selectBox':
+			// 	for (let index in obj.freezedValues.notes) {
+			// 		const calculatedDuration =
+			// 			obj.freezedValues.notes[index].duration +
+			// 			action.position[0] -
+			// 			obj.freezedValues.initialMousePosition[0];
+
+			// 		obj.notes[index].duration =
+			// 			calculatedDuration >= 0 ? calculatedDuration : 0;
+			// 	}
+			// 	return obj;
+
 			default:
 				throw new Error("Reducer error, verify the function you're calling");
 		}

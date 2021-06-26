@@ -12,6 +12,7 @@ const html = document.querySelector('html')
 function NotesEditor() {
 
     const umaRef = useRef(null);
+    const outraRef = useRef(null)
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -24,15 +25,17 @@ function NotesEditor() {
     }
 
     function mouseDown(event) {
-        if (event.button === 0) {
-            if (!state.selection.isEmpty()) {
-                if (!event.shiftKey)
-                    state.selection.clear()
-            } else {
-                const [start, height] = eventToPosition(event)
-                dispatch({ type: 'add', start, height })
-                clickOrMove.allowClick = false
-            }
+        if (event.button !== 0) return
+
+        selectBox(event)
+
+        if (!state.selection.isEmpty()) {
+            if (!event.shiftKey)
+                state.selection.clear()
+        } else {
+            const [start, height] = eventToPosition(event)
+            dispatch({ type: 'add', start, height })
+            clickOrMove.allowClick = false
         }
 
         event.stopPropagation()
@@ -79,6 +82,43 @@ function NotesEditor() {
         }
     }
 
+    function selectBox(event) {
+        state.freezeSelectionValues()
+
+
+        outraRef.current.style.display = 'block'
+
+        outraRef.current.style.width = 0;
+        outraRef.current.style.height = 0;
+
+        const initialPosition = eventToPosition(event)
+        state.freezedValues.initialMousePosition = initialPosition
+
+        html.onmousemove = (e) => {
+            const [xStart, xEnd] = [event.clientX, e.clientX].sort((a, b) => a - b)
+            const [yStart, yEnd] = [event.clientY, e.clientY].sort((a, b) => a - b)
+
+            outraRef.current.style.left = xStart + 'px';
+            outraRef.current.style.top = yStart + 'px';
+
+            outraRef.current.style.width = xEnd - xStart + 'px';
+            outraRef.current.style.height = yEnd - yStart + 'px';
+
+            const position = eventToPosition(e)
+            if (e.shiftKey)
+                position[1] = initialPosition[1]
+            if (e.ctrlKey)
+                position[0] = initialPosition[0]
+            clickOrMove.allowClick = false
+            dispatch({ type: 'move', position })
+        }
+
+        html.onmouseup = () => {
+            outraRef.current.style.display = 'none'
+            html.onmousemove = null
+        }
+    }
+
     function onWheel(event) {
         if (event.shiftKey) {
             umaRef.current.style.overflow = 'hidden'
@@ -89,13 +129,7 @@ function NotesEditor() {
         }
     }
 
-    function onKeyPress(e) {
-        console.log(e)
-        console.log('oi')
-    }
-
     return (
-        // tabindex specifically to listen keypress
         <div
             className="notes-editor"
             onMouseDown={mouseDown}
@@ -115,6 +149,8 @@ function NotesEditor() {
                 >
                     {key}
                 </Note>)}
+            {/* <SelectBox ref={selectBoxRef}></SelectBox> */}
+            <div className="select-box" ref={outraRef}></div>
         </div>
     );
 }

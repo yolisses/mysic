@@ -7,3 +7,12 @@
 	height: 100vh;
 	margin: 0;
 }
+
+.select-box {
+	z-index: 1;
+	background-color: rgba(66, 179, 255, 0.103);
+	border: solid 1px rgba(32, 188, 255, 0.363);
+	border-radius: 4px;
+	position: relative;
+	display: none;
+}
