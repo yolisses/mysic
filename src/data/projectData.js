@@ -89,36 +89,8 @@ export function reducer(state, action) {
 					obj.notes[index].height = clamp(calculatedHeight, 0, 88);
 				}
 				return obj;
-
-			case 'selectBox':
-				if (action.keepInitialSelection) {
-					obj.selection.clear();
-					const indexes = Object.keys(obj.freezedValues.notes);
-					obj.selection.setSelected(indexes);
-				} else {
-					obj.selection.clear();
-				}
-				for (let index in obj.notes) {
-					const start = obj.notes[index].start;
-					const end = obj.notes[index].start + obj.notes[index].duration;
-					const height = obj.notes[index].height;
-					const initialPosition = action.initialPosition;
-					const finalPosition = action.finalPosition;
-					if (
-						start > initialPosition[0] &&
-						start < finalPosition[0] &&
-						end > initialPosition[0] &&
-						end < finalPosition[0] &&
-						height > initialPosition[1] &&
-						height < finalPosition[1]
-					) {
-						obj.selection.addInSelection(index);
-					}
-				}
-				return obj;
-
 			default:
-				throw new Error('problemão no state');
+				throw new Error('problem in the reducer code');
 		}
 	})();
 	return result;

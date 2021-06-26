@@ -8,6 +8,7 @@ import copyAndPaste from '../data/copyAndPaste';
 import { redisplay } from './selectionDisplayer';
 
 import "./NotesEditor.css";
+import { boxSelection } from '../data/boxSelection';
 
 const html = document.querySelector('html')
 
@@ -126,8 +127,8 @@ function NotesEditor() {
             outraRef.current.style.width = xEnd - xStart + 'px';
             outraRef.current.style.height = yEnd - yStart + 'px';
 
-            dispatch({
-                type: 'selectBox',
+            boxSelection({
+                state,
                 initialPosition: pixelToPosition(xStart, yStart),
                 finalPosition: pixelToPosition(xEnd, yEnd),
                 keepInitialSelection: e.shiftKey
