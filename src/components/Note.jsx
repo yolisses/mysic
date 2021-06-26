@@ -12,11 +12,6 @@ export default function Note(props) {
     if (!state.notes[id]) return <></>
     const { start, height, duration } = state.notes[id]
 
-    const onContextMenu = (e) => {
-        e.preventDefault()
-        dispatch({ type: 'remove', id })
-    }
-
     const mouseDown = (e) => {
         e.stopPropagation();
         clickOrMove.allowClick = true
@@ -44,6 +39,11 @@ export default function Note(props) {
                 state.selection.select(id)
             clickOrMove.allowClick = false
         }
+    }
+
+    const onContextMenu = (e) => {
+        e.preventDefault()
+        props.remove(id)
     }
 
     const mouseDownHandler = (e) => {

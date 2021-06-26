@@ -29,14 +29,14 @@ function NotesEditor() {
     }
 
     function mouseDown(event) {
+        event.stopPropagation()
+        event.preventDefault()
+
         if (event.button !== 0) return
 
         selectBox(event)
 
         clickOrMove.allowClick = true
-
-        event.stopPropagation()
-        event.preventDefault()
     }
 
     function mouseUp(event) {
@@ -91,6 +91,17 @@ function NotesEditor() {
         html.onmouseup = () => {
             html.onmousemove = null
         }
+    }
+
+    function remove(id) {
+        if (state.selection.selected.includes(id)) {
+            state.freezeSelectionValues()
+        }
+        else {
+            state.freezeOneNote(id)
+        }
+        clickOrMove.allowClick = false
+        dispatch({ type: 'remove', id })
     }
 
     function selectBox(event) {
@@ -156,6 +167,7 @@ function NotesEditor() {
                     key={key}
                     scale={scale}
                     move={move}
+                    remove={remove}
                 >
                     {key}
                 </Note>)}
