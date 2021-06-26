@@ -15,4 +15,6 @@
 	border-radius: 4px;
 	position: relative;
 	display: none;
+	width: 0;
+	height: 0;
 }

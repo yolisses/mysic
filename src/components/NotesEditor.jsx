@@ -19,8 +19,12 @@ function NotesEditor() {
     const [zoom, setZoom] = useState(20)
 
     function eventToPosition(event) {
-        const start = (event.clientX + umaRef.current.scrollLeft) / zoom
-        const height = Math.floor((event.clientY + umaRef.current.scrollTop) / 20)
+        return pixelToPosition(event.clientX, event.clientY)
+    }
+
+    function pixelToPosition(x, y) {
+        const start = (x + umaRef.current.scrollLeft) / zoom
+        const height = Math.floor((y + umaRef.current.scrollTop) / 20)
         return [start, height]
     }
 
@@ -28,6 +32,16 @@ function NotesEditor() {
         if (event.button !== 0) return
 
         selectBox(event)
+
+        clickOrMove.allowClick = true
+
+        event.stopPropagation()
+        event.preventDefault()
+    }
+
+    function mouseUp(event) {
+        if (event.button !== 0) return
+        if (!clickOrMove.allowClick) return
 
         if (!state.selection.isEmpty()) {
             if (!event.shiftKey)
@@ -37,9 +51,6 @@ function NotesEditor() {
             dispatch({ type: 'add', start, height })
             clickOrMove.allowClick = false
         }
-
-        event.stopPropagation()
-        event.preventDefault()
     }
 
     function scale(event, id) {
@@ -49,9 +60,9 @@ function NotesEditor() {
         else {
             state.freezeOneNote(id)
         }
-        // state.freezedValues.initialMouseEvent = event
         state.freezedValues.initialMousePosition = eventToPosition(event)
         html.onmousemove = (e) => {
+            clickOrMove.allowClick = false
             dispatch({ type: 'scale', position: eventToPosition(e) })
         }
         html.onmouseup = () => {
@@ -91,10 +102,8 @@ function NotesEditor() {
         outraRef.current.style.width = 0;
         outraRef.current.style.height = 0;
 
-        const initialPosition = eventToPosition(event)
-        state.freezedValues.initialMousePosition = initialPosition
-
         html.onmousemove = (e) => {
+            clickOrMove.allowClick = false
             const [xStart, xEnd] = [event.clientX, e.clientX].sort((a, b) => a - b)
             const [yStart, yEnd] = [event.clientY, e.clientY].sort((a, b) => a - b)
 
@@ -104,17 +113,17 @@ function NotesEditor() {
             outraRef.current.style.width = xEnd - xStart + 'px';
             outraRef.current.style.height = yEnd - yStart + 'px';
 
-            const position = eventToPosition(e)
-            if (e.shiftKey)
-                position[1] = initialPosition[1]
-            if (e.ctrlKey)
-                position[0] = initialPosition[0]
-            clickOrMove.allowClick = false
-            dispatch({ type: 'move', position })
+            const startPosition = eventToPosition(e)
+            dispatch({
+                type: 'selectBox',
+                initialPosition: pixelToPosition(xStart, yStart),
+                finalPosition: pixelToPosition(xEnd, yEnd)
+            })
         }
 
         html.onmouseup = () => {
             outraRef.current.style.display = 'none'
+            clickOrMove.allowClick = true
             html.onmousemove = null
         }
     }
@@ -139,6 +148,7 @@ function NotesEditor() {
                 "--scale": zoom,
             }}
             onWheel={onWheel}
+            onMouseUp={mouseUp}
         >
             {Object.keys(state.notes).map(key =>
                 <Note
