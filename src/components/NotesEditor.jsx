@@ -1,5 +1,6 @@
 import { React, useReducer, useRef, useState } from 'react';
 import clickOrMove from '../data/clickOrMove';
+import copyAndPaste from '../data/copyAndPaste';
 import { initialState, reducer } from '../data/projectData';
 import { clamp } from '../utils/clamp';
 
@@ -51,6 +52,7 @@ function NotesEditor() {
             dispatch({ type: 'add', start, height })
             clickOrMove.allowClick = false
         }
+        umaRef.current.focus()
     }
 
     function scale(event, id) {
@@ -137,6 +139,18 @@ function NotesEditor() {
         }
     }
 
+    function onCopy(event) {
+        copyAndPaste.setNotes(state.getSelectedNotes())
+    }
+
+    function onPaste(event) {
+        // const notesArray = Object.values(copyAndPaste.notes)
+        // state.addNotes(notesArray)
+        dispatch({
+            type: 'paste'
+        })
+    }
+
     function onWheel(event) {
         if (event.shiftKey) {
             umaRef.current.style.overflow = 'hidden'
@@ -158,6 +172,10 @@ function NotesEditor() {
             }}
             onWheel={onWheel}
             onMouseUp={mouseUp}
+            tabIndex="0"
+            // onKeyPress={onKeyPress}
+            onCopy={onCopy}
+            onPaste={onPaste}
         >
             {Object.keys(state.notes).map(key =>
                 <Note

@@ -1,4 +1,5 @@
 import { clamp } from '../utils/clamp';
+import copyAndPaste from './copyAndPaste';
 import Selection from './selection';
 
 export const initialState = {
@@ -20,6 +21,18 @@ export const initialState = {
 		this.freezedValues = { notes: {} };
 		this.freezedValues.notes[id] = { ...this.notes[id] };
 	},
+	getSelectedNotes() {
+		const selectedNotes = {};
+		for (let index of this.selection.selected) {
+			selectedNotes[index] = this.notes[index];
+		}
+		return selectedNotes;
+	},
+	addNote(noteData) {
+		const id = this.getNewId();
+		this.notes[id] = { ...noteData };
+		return id;
+	},
 };
 
 export function reducer(state, action) {
@@ -33,6 +46,14 @@ export function reducer(state, action) {
 					height: action.height,
 					duration: 4,
 				};
+				return obj;
+
+			case 'paste':
+				const addedIndexes = [];
+				Object.values(copyAndPaste.notes).forEach((note) => {
+					const id = obj.addNote(note);
+					addedIndexes.push(id);
+				});
 				return obj;
 
 			case 'remove':
@@ -97,6 +118,7 @@ export function reducer(state, action) {
 				return obj;
 
 			default:
+				throw new Error('problemão no state');
 		}
 	})();
 	return result;
