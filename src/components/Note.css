@@ -1,7 +1,7 @@
 .note {
-	background-color: #090a;
+	background-color: rgba(1, 165, 1, 0.667);
 	border: solid #060 1px;
-	border-right: solid #080;
+	border-right: solid rgb(2, 126, 2);
 	position: absolute;
 	box-sizing: border-box;
 	user-select: none;
@@ -13,7 +13,7 @@
 }
 
 .note.selected {
-	background-color: #39da;
+	background-color: rgba(51, 113, 170, 0.753);
 	border: solid #39a 1px;
 	border-right: solid #3ad;
 	z-index: 1;
