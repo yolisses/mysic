@@ -39,7 +39,6 @@ export function reducer(state, action) {
 				for (let index in obj.freezedValues.notes) {
 					delete obj.notes[index];
 				}
-				// delete obj.notes[action.id];
 				return obj;
 
 			case 'scale':

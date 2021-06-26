@@ -29,8 +29,6 @@ export default function Note(props) {
     }
 
     const mouseUp = (e) => {
-        // e.stopPropagation();
-
         if (e.button !== 0) return;
         if (clickOrMove.allowClick) {
             if (e.shiftKey)

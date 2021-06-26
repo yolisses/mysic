@@ -167,9 +167,7 @@ function NotesEditor() {
                     move={move}
                     remove={remove}
                 >
-                    {key}
                 </Note>)}
-            {/* <SelectBox ref={selectBoxRef}></SelectBox> */}
             <div className="select-box" ref={outraRef}></div>
         </div>
     );
