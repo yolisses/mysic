@@ -72,11 +72,18 @@ export function reducer(state, action) {
 			case 'selectBox':
 				obj.selection.clear();
 				for (let index in obj.notes) {
+					const start = obj.notes[index].start;
+					const end = obj.notes[index].start + obj.notes[index].duration;
+					const height = obj.notes[index].height;
+					const initialPosition = action.initialPosition;
+					const finalPosition = action.finalPosition;
 					if (
-						obj.notes[index].start > action.initialPosition[0] &&
-						obj.notes[index].start < action.finalPosition[0] &&
-						obj.notes[index].height > action.initialPosition[1] &&
-						obj.notes[index].height < action.finalPosition[1]
+						start > initialPosition[0] &&
+						start < finalPosition[0] &&
+						end > initialPosition[0] &&
+						end < finalPosition[0] &&
+						height > initialPosition[1] &&
+						height < finalPosition[1]
 					) {
 						obj.selection.addInSelection(index);
 					}
@@ -84,7 +91,6 @@ export function reducer(state, action) {
 				return obj;
 
 			default:
-				throw new Error("Reducer error, verify the function you're calling");
 		}
 	})();
 	return result;
