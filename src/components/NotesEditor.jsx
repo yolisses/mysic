@@ -84,10 +84,14 @@ function NotesEditor() {
         }
     }
 
-    function duplicate(event) {
-        copyAndPaste.setNotes(state.getSelectedNotes())
-        console.log('copy')
-        dispatch({ type: 'paste' })
+    function duplicate(id) {
+        if (state.selection.selected.includes(id)) {
+            state.freezeSelectionValues()
+        }
+        else {
+            state.freezeOneNote(id)
+        }
+        dispatch({ type: 'duplicate' })
         setReselect(true)
     }
 
@@ -104,8 +108,8 @@ function NotesEditor() {
             const position = eventToPosition(e)
             if (e.shiftKey)
                 position[1] = initialPosition[1]
-            if (e.ctrlKey)
-                position[0] = initialPosition[0]
+            // if (e.ctrlKey)
+            //     position[0] = initialPosition[0]
             clickOrMove.allowClick = false
             dispatch({ type: 'move', position })
         }

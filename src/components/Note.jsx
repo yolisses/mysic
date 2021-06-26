@@ -58,7 +58,7 @@ export default function Note(props) {
             onContextMenu={onContextMenu}
             onMouseDown={mouseDown}
             id={id}>
-            {id}::{Math.round(Math.random() * 100)}
+            {/* {id}::{Math.round(Math.random() * 100)} */}
             < div
                 className="duration-handle"
                 onMouseDown={mouseDownHandler}

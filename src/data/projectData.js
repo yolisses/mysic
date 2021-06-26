@@ -56,6 +56,12 @@ export function reducer(state, action) {
 				});
 				return obj;
 
+			case 'duplicate':
+				for (let index in obj.freezedValues.notes) {
+					obj.addNote(obj.notes[index]);
+				}
+				return obj;
+
 			case 'remove':
 				for (let index in obj.freezedValues.notes) {
 					delete obj.notes[index];
