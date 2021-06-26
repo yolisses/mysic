@@ -29,7 +29,7 @@
 	max-width: 50%;
 	min-width: 2px;
 	position: absolute;
-	right: 0;
+	right: -2px;
 	top: 50%;
 	transform: translate(50%, -50%);
 	cursor: ew-resize;
