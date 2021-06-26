@@ -75,24 +75,17 @@ function NotesEditor() {
         }
     }
 
-    function noteMouseMove(event, id) {
+    function noteMouseDown(event, id) {
         if (!event.ctrlKey) {
             move(event, id)
         } else {
-            duplicate(event)
+            duplicate()
             move(event, id)
         }
     }
 
-    function duplicate(id) {
-        if (state.selection.selected.includes(id)) {
-            state.freezeSelectionValues()
-        }
-        else {
-            state.freezeOneNote(id)
-        }
+    function duplicate() {
         dispatch({ type: 'duplicate' })
-        setReselect(true)
     }
 
     function move(event, id) {
@@ -106,8 +99,9 @@ function NotesEditor() {
         state.freezedValues.initialMousePosition = initialPosition
         html.onmousemove = (e) => {
             const position = eventToPosition(e)
-            if (e.shiftKey)
-                position[1] = initialPosition[1]
+            // future features
+            // if (e.shiftKey)
+            //     position[1] = initialPosition[1]
             // if (e.ctrlKey)
             //     position[0] = initialPosition[0]
             clickOrMove.allowClick = false
@@ -212,7 +206,7 @@ function NotesEditor() {
                     move={move}
                     remove={remove}
                     duplicate={duplicate}
-                    noteMouseMove={noteMouseMove}
+                    noteMouseDown={noteMouseDown}
                 >
                 </Note>)}
             <div className="select-box" ref={outraRef}></div>

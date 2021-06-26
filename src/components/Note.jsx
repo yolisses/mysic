@@ -23,7 +23,7 @@ export default function Note(props) {
             }
         }
         else {
-            props.noteMouseMove(e, id)
+            props.noteMouseDown(e, id)
         }
     }
 
