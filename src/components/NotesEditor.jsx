@@ -116,8 +116,8 @@ function NotesEditor() {
             const [xStart, xEnd] = [event.clientX, e.clientX].sort((a, b) => a - b)
             const [yStart, yEnd] = [event.clientY, e.clientY].sort((a, b) => a - b)
 
-            outraRef.current.style.left = xStart + 'px';
-            outraRef.current.style.top = yStart + 'px';
+            outraRef.current.style.left = xStart + umaRef.current.scrollLeft + 'px';
+            outraRef.current.style.top = yStart + umaRef.current.scrollTop + 'px';
 
             outraRef.current.style.width = xEnd - xStart + 'px';
             outraRef.current.style.height = yEnd - yStart + 'px';
